@@ -1,45 +1,26 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useContext, useEffect } from "react";
 import Loader from "../Loader/Loader";
+import { getGiphy } from "../../store/Actions/GiphyAction/GiphyAction";
+import giphyContext from "../../store/contexts/GiphyContext/GiphyContext";
 const TrendCard = () => {
-  const [giphy, setGiphy] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-  useEffect(async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get(
-        "https://api.giphy.com/v1/gifs/trending",
-        {
-          params: {
-            api_key: "7sjuTLOBnXyMYjyjwFIljFbYuP23jW7s",
-          },
-        }
-      );
-      setGiphy(response.data.data);
-      setLoading(false);
-      setIsError(false);
-    } catch (error) {
-      setLoading(false);
-      setIsError(true);
-      setTimeout(() => setIsError(false), 400);
-    }
+  const { state, dispatch } = useContext(giphyContext);
+  const { AllGiphy, loader, error } = state;
+  useEffect(() => {
+    getGiphy({ dispatch });
   }, []);
-
-  console.log(loading, giphy);
   return (
     <div className="container">
       <h1 className="text-gray-800 text-2xl font-bold mb-6">
         Trending Tenor Searches
       </h1>
-      {isError ? (
+      {error ? (
         <h2 className="text-red-700">Something is wrong! please try again</h2>
       ) : null}
       <div className="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-5">
-        {loading ? (
+        {loader ? (
           <Loader />
         ) : (
-          giphy.slice(0, 10).map((gip) => (
+          AllGiphy.slice(0, 10).map((gip) => (
             <div
               className="flex flex-col text-center cursor-pointer"
               key={gip.id}
