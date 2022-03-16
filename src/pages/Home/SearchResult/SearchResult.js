@@ -25,12 +25,12 @@ const SearchResult = () => {
       setIsError(true);
       setTimeout(() => setIsError(false), 400);
     }
-  }, []);
-  console.log(giphy);
+  }, [inputvalue]);
   return (
     <>
       <div className="container mt-5 min-h-screen">
-        <h1 className="text-gray-800 text-2xl font-bold mb-6">GIFs</h1>
+        <h1 className="text-gray-800 text-2xl font-bold mb-6">{inputvalue}</h1>
+        <h1 className="text-gray-800 text-2xl font-semibold mb-6">GIFs</h1>
         {isError ? (
           <h2 className="text-red-700">Something is wrong! please try again</h2>
         ) : null}
