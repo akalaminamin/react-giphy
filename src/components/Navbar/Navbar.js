@@ -28,20 +28,6 @@ const Navbar = () => {
             >
               Home
             </Link>
-            <Link
-              to="/"
-              className="nav-link mt-3 md:mt-0"
-              onClick={() => setShow(!show)}
-            >
-              Home
-            </Link>
-            <Link
-              to="/"
-              className="nav-link mt-3 md:mt-0"
-              onClick={() => setShow(!show)}
-            >
-              Home
-            </Link>
           </nav>
         </div>
       </header>

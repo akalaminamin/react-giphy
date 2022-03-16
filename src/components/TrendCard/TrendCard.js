@@ -4,15 +4,26 @@ import Loader from "../Loader/Loader";
 const TrendCard = () => {
   const [giphy, setGiphy] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
   useEffect(async () => {
-    setLoading(true);
-    const response = await axios.get("https://api.giphy.com/v1/gifs/trending", {
-      params: {
-        api_key: "7sjuTLOBnXyMYjyjwFIljFbYuP23jW7s",
-      },
-    });
-    setGiphy(response.data.data);
-    setLoading(false);
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        "https://api.giphy.com/v1/gifs/trending",
+        {
+          params: {
+            api_key: "7sjuTLOBnXyMYjyjwFIljFbYuP23jW7s",
+          },
+        }
+      );
+      setGiphy(response.data.data);
+      setLoading(false);
+      setIsError(false);
+    } catch (error) {
+      setLoading(false);
+      setIsError(true);
+      setTimeout(() => setIsError(false), 400);
+    }
   }, []);
 
   console.log(loading, giphy);
@@ -21,6 +32,9 @@ const TrendCard = () => {
       <h1 className="text-gray-800 text-2xl font-bold mb-6">
         Trending Tenor Searches
       </h1>
+      {isError ? (
+        <h2 className="text-red-700">Something is wrong! please try again</h2>
+      ) : null}
       <div className="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-5">
         {loading ? (
           <Loader />
